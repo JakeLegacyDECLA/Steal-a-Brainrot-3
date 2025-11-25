@@ -1,6 +1,9 @@
 # Proyecto: Steal a Brainrot!
 Steal a Brainrot! es un juego de Roblox que consiste en coleccionar y robar diferentes personajes catalogados como "Brainrot", este juego tiene un sistema de rarezas (Común, Raro, Épico, Legendario, BrainrotGOD y Secreto) y costos en cuestión a los personajes que existen, por lo que es más valioso un Brainrot Secreto a un Brainrot BrainrotGod. Usando los diferentes temas que hemos aprendido durante el semestre, este proyecto se designa a facilitar la busqueda y catalogo de los Brainrots que el usuario tiene en el juego, mejorando el ordenamiento en su base dependiendo si quiere ordenarlos por nombre, costo o rareza.
 
+# Link de problemas:
+https://drive.google.com/drive/folders/1fBlEFJQTMsG1tIqIwnGjqTxsechl54-m?usp=sharing
+
 ## Descripción del avance 1
 En este avance se entrega un primer prototipo de consola que:
 + Pide al usuario diferentes brainrots que añadir a vectores como Nombre, Rareza y Costo.
