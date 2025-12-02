@@ -66,9 +66,9 @@ Al terminar de ejecutar el avance, se puede obtener:
 
 ### SICT0301: Evalúa los componentes
 #### Hace un análisis de complejidad correcto y completo para los algoritmos de ordenamiento usados en el programa.
-En mi proyecto, he implementado el algoritmo de ordenamiento Merge Sort en las funciones mergeSortPorNombre, mergeSortPorRareza y mergeSortPorCosto. El análisis de complejidad del algoritmo es el siguiente:
+En mi proyecto, he implementado el algoritmo de ordenamiento Merge Sort en la función mergeSort. El análisis de complejidad del algoritmo es el siguiente:
 
-Complejidad (los tres):
+Complejidad:
 Tiempo: O(n log n) en mejor/promedio/peor caso (divide y combina de manera lineal con las 3 propuestas (nombre, rareza y costo)).
 Espacio extra: O(n) por los arreglos temporales de merge + O(log n) de pila (domina O(n)).
 Estabilidad: Sí. En empates, el orden previo se respeta. Además:
@@ -81,20 +81,11 @@ Estabilidad: Sí. En empates, el orden previo se respeta. Además:
 a. mostrarArreglos()
 Complejidad en el mejor y peor caso: O(n), el acceso a los elementos del vector implica recorrer todos los personajes e imprimirlos en consola.
 
-b. mergeSortPorNombre()
-Complejidad en el mejor, promedio y peor caso: O(n log n), ordena de manera paralela los 3 vectores tomando al vector "nombres" como principal. Merge Sort siempre hace dos mitades recursivamente y las combina, dejando la complejidad de O(n log n).
-
-c. mergeSortPorRareza()
-Complejidad en el mejor, promedio y peor caso: O(n log n), ordena de manera paralela los 3 vectores tomando al vector "rarezas" como principal. Merge Sort siempre hace dos mitades recursivamente y las combina, dejando la complejidad de O(n log n).
-
-d. mergeSortPorCosto()
-Complejidad en el mejor, promedio y peor caso: O(n log n), ordena de manera paralela los 3 vectores tomando al vector "costos" como principal. Merge Sort siempre hace dos mitades recursivamente y las combina, dejando la complejidad de O(n log n).
+b. mergeSort()
+Complejidad en el mejor, promedio y peor caso: O(n log n), ordena de manera paralela los 3 vectores, dependiendo de la opción escogida, tomará "nombres", "costos" o "rarezas" como principal. Merge Sort siempre hace dos mitades recursivamente y las combina, dejando la complejidad de O(n log n).
 
 e. capturarPersonajes()
 Inserción al final con push_back, cuando el usuario ingresa nuevos personajes, insertar al final es O(1), pero la función completa es O(n) por la cantidad de personajes ingresados.
-
-f. cargarDesdeCSV() y guardarEnCSV()
-Recorren cada personaje uno por uno, dejando una complejidad de O(n) en el mejor, promedio y peor caso.
 
 2. Double Linked List: La lista doblemente ligada es una estructura de datos lineal en la que cada nodo almacena un elemento (en mi caso, un personaje favorito con nombre, rareza y costo) y dos apuntadores, uno al nodo anterior y otro al nodo siguiente. Esto permite recorrer la lista en los dos sentidos (inicio - fin y fin - inicio) y realizar inserciones y eliminaciones una vez que se tiene la referencia del nodo. En mi proyecto la usé para manejar la lista de brainrots favoritos del usuario.
 
@@ -110,21 +101,61 @@ Complejidad en el mejor, promedio y peor caso: O(1), se usan las funciones de mo
 d. Recorridos
 Complejidad en el mejor y peor caso: O(n), las funciones recorren la lista desde head to tail o viceversa, teniendo que pasar por cada nodo por nodo, cumpliendo con la complejidad O(n).
 
-He desarrollado esta competencia al implementar estructuras de datos, de las cuales reconozco sus puntos fuertes y el como me pueden apoyar para resolver diferentes puntos o problemas que se pueden generar en mi programa, los vectores son ideales para operaciones de recorridos secuenciales y las listas doblemente ligadas son fundamentales para generar un sub-inventario que no necesite ser recorrido de manera total en todas sus ejecuciones. 
+3. Stack: Un Stack es una estructura de datos lineal en la que el último elemento en entrar es el primero en salir (Last in, First Out).
+
+En mi proyecto, utilicé un Stack dinámico para almacenar el inventario completo que posteriormente será sobrescrito en el archivo CSV. Esta estructura permite una manipulación eficiente cuando se necesita insertar o eliminar elementos desde el tope, además de servir como puente entre los arreglos principales y el proceso de escritura en archivo, usando una complejidad obligatoria de O(n) al tener que recorrer todos los elementos, me funciona para generarlo temporalmente y a la vez de ir ingresando personajes los voy sacando.
+
+a. push()
+Complejidad en mejor, promedio y peor caso: O(1)
+La función crea un nuevo nodo que apunta al nodo anterior (topNode) y luego actualiza dicho puntero al nuevo nodo.
+No importa el tamaño del Stack, la operación siempre es constante.
+
+b. pop()
+Complejidad en mejor, promedio y peor caso: O(1)
+Se verifica si el Stack está vacío, y si no lo está, se elimina el nodo superior y se regresa su contenido.
+La operación nunca recorre la estructura, por eso siempre es O(1).
+
+c. toVectors()
+Complejidad en el mejor y peor caso: O(n)
+Con esta función recorro nodo por nodo desde el tope hasta el final del Stack para reconstruir los vectores nombres, rarezas y costos.
+La complejidad es O(n) porque se debe visitar cada nodo exactamente una vez.
+
+d. fromVectors()
+Complejidad en el mejor y peor caso: O(n)
+Antes de insertar, primero vacía el Stack eliminando nodo por nodo (O(n)).
+Después, recorre los vectores desde el final hacia el principio para insertar con push() y conservar el orden.
+Ambas operaciones son lineales, así que la complejidad total es O(n).
+
+Esta función es fundamental para sobrescribir el CSV con el orden correcto después de aplicar Merge Sort en los vectores.
+
+e. guardarCSV()
+Complejidad en el mejor, promedio y peor caso: O(n)
+La función abre el archivo CSV y recorre cada nodo del Stack escribiendo:
+nombre, rareza, costo
+La complejidad depende del número de registros, por lo que es lineal.
+
+f. cargarCSV()
+Complejidad en el mejor, promedio y peor caso: O(n)
+Se lee el archivo línea por línea, se separan los campos, se valida la rareza y cada personaje se inserta usando push().
+Cada inserción es O(1), pero el proceso debe recorrer todas las líneas del archivo, por lo que termina siendo O(n).
+
+g. empty()
+Complejidad: O(1)
+Solo compara si topNode == NULL.
+
+He desarrollado esta competencia al implementar estructuras de datos, de las cuales reconozco sus puntos fuertes y el como me pueden apoyar para resolver diferentes puntos o problemas que se pueden generar en mi programa, los vectores son ideales para operaciones de recorridos secuenciales, el stack me sirve para poder ir cargando y guardando personajes en un arreglo temporal, las listas doblemente ligadas son fundamentales para generar un sub-inventario que no necesite ser recorrido de manera total en todas sus ejecuciones. 
 
 #### Hace un análisis de complejidad correcto y completo para todos los demás componentes del programa y determina la complejidad final del programa.
 En mi proyecto he realizado un análisis de complejidad para todos los componentes principales del sistema, considerando las estructuras de datos y las operaciones que se realizan sobre ellas.
 
-En primer lugar, analicé las operaciones sobre los vectores (nombres, rarezas, costos): accesos por índice en O(1), recorridos completos en O(n), inserciones al final en O(1) y el uso de estos vectores como base para el algoritmo de ordenamiento Merge Sort. Después, implementé la Double Linked List (DListFavoritos<Row>), identificando sus operaciones de inserción al final en O(1), eliminación por nombre en O(n), navegación (moveNext, movePrev, moveToFirst, moveToLast, getCurrent) en O(1) y recorridos completos en O(n), donde n es el número de favoritos.
+En primer lugar, analicé las operaciones sobre los vectores (nombres, rarezas, costos): accesos por índice en O(1), recorridos completos en O(n), inserciones al final en O(1) y el uso de estos vectores como base para el algoritmo de ordenamiento Merge Sort. Después, implementé la Double Linked List (DListFavoritos<Row>), identificando sus operaciones de inserción al final en O(1), eliminación por nombre en O(n), navegación (moveNext, movePrev, moveToFirst, moveToLast, getCurrent) en O(1) y recorridos completos en O(n), donde n es el número de favoritos, a la par, desarrollé un Stack (StackInventario inventario) donde cada inserción en el arreglo temporal es de O(1) pero al ser una estructura usada para sobrescribir y cargar un CSV, termina en O(n) ya que se tiene que recorrer de manera completa.
 
-También analicé las funciones de entrada/salida de archivos:
+Analizando las funciones de entrada/salida de archivos:
 cargarDesdeCSV(...) recorre línea por línea el archivo y agrega los personajes a los vectores, con complejidad O(n), donde n es el número de líneas válidas.
 guardarEnCSV(...) recorre los vectores una sola vez para sobrescribir el CSV con el inventario actual, con complejidad O(n).
 
-El componente más costoso del sistema es el algoritmo de ordenamiento Merge Sort, utilizado en las funciones:
-mergeSortPorCosto()
-mergeSortPorNombre()
-mergeSortPorRareza()
+El componente más costoso del sistema es el algoritmo de ordenamiento Merge Sort (anteriormente eran 3 mergeSorts, ahora es 1 gracias al uso de los templates), utilizado en la función:
+mergeSort()
 
 Cada una de estas funciones divide recursivamente el arreglo y combina los subarreglos, obteniendo una complejidad:
 Mejor caso: Θ(n log n)
@@ -138,8 +169,8 @@ Las demás operaciones (cargar/guardar CSV, mostrar inventario, gestionar favori
 
 Considero que he desarrollado esta competencia porque:
 
-+ He identificado las operaciones clave de cada estructura (vector y lista doblemente ligada) y he determinado su complejidad en mejor, peor y caso promedio cuando aplica.
-+ He documentado la complejidad directamente en el código con comentarios (por ejemplo, en MergeSort.h, DList.h, CsvLoader.h y en las funciones del main.cpp), mostrando un análisis línea por línea.
++ He identificado las operaciones clave de cada estructura (vector, stack y lista doblemente ligada) y he determinado su complejidad en mejor, peor y caso promedio cuando aplica.
++ He documentado la complejidad directamente en el código con comentarios (por ejemplo, en MergeSort.h, DList.h, StackInventario.h, CsvLoader.h y en las funciones del main.cpp), mostrando un análisis línea por línea.
 + Este desarrollo se observa tanto en la implementación del código como en la justificación escrita de la complejidad para cada módulo, concluyendo en la complejidad final del programa.
 
 ### SICT0302: Toma decisiones
@@ -167,6 +198,13 @@ Las ventajas de esta estructura son:
 El uso de vector y lista doblemente ligada le sirve mucho a mi proyecto en dado caso de necesitar tener a la mano ciertos personajes de manera rápida en una lista, a diferencia de solo usar vectores y limitarse a hacer puros recorridos de O(n), en la lista se logra optimizar la parte de solo consultar personajes selectos que el usuario estará usando constantemente.
 
 Este desarrollo de la competencia se observa en la forma que aplico y selecciono cada estructura de datos para aprovechar sus puntos fuertes y compensar sus limitaciones. El vector es ideal para operaciones de acceso y recorrido mientras que la lista doblemente ligada es fundamental para evitar ciertos recorridos totales innecesarios que se tendrían que hacer en los vectores sin la existencia de las listas.
+
+Selección y uso del Stack:
+Añadí un stack para manejar las operaciones que requieren obligatoriamente un recorrido total (O(n)), como lo es el cargar y sobrescribir un archivo CSV, haciendo una estructura temporal que solo será utilizada para esos mismos.
+
+Las ventajas de esta estructura son:
++ El uso momentaneo de esta: O(1) al meter un personaje y sacarlo instantaneamente de la estructura, permite no usar espacio de más en la memoria.
+
 
 ### SICT0303: Implementa acciones científicas
 #### Implementa mecanismos para consultar información de las estructuras correctos.
@@ -210,5 +248,5 @@ Lectura de archivos:
 En mi sistema existe una opción de sobrescribir un CSV nuevo o ya existente con los datos que existan o ya se hayan modificado en el programa, esta funcionalidad se encuentra en la función guardarEnCSV.
 Guardar datos en archivos:
 + Guarda en CSV con encabezados (Nombre, Rareza, Costo).
-+ Complejidad total: O(n) en el número de filas.
++ Complejidad total: O(n) por el uso del Stack y su recorrido completo final.
 + Integración directa, con feedback de acción completada.
