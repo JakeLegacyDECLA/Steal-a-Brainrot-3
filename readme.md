@@ -246,7 +246,7 @@ Lectura de archivos:
 
 ### Implementa mecanismos de escritura de archivos para guardar los datos de las estructuras de manera correcta
 En mi sistema existe una opción de sobrescribir un CSV nuevo o ya existente con los datos que existan o ya se hayan modificado en el programa, esta funcionalidad se encuentra en la función guardarEnCSV.
-Guardar datos en archivos:
+Guardar datos en archivos CSV mediante Stack:
 + Guarda en CSV con encabezados (Nombre, Rareza, Costo).
 + Complejidad total: O(n) por el uso del Stack y su recorrido completo final.
 + Integración directa, con feedback de acción completada.
